@@ -13,16 +13,16 @@ services:
       dockerfile: nuxt_restaurant.dockerfile
     command: sh -c '${DEPLOY_CMD}'
     ports:
-      - "${PORT_WEP_APP}:3001"
+      - "${PORT_WEP_APP}:3000"
     volumes:
       - ./:/app
     networks: 
       - nuxt_restaurant
    
   # CONTAINER MONGO DB
-  mongodb:
+  nuxt_mongodb:
     image: bitnami/mongodb:3.6
-    container_name: mongodb
+    container_name: nuxt_mongodb
     environment:
       - MONGODB_USERNAME=${MONGODB_USERNAME}
       - MONGODB_PASSWORD=${MONGODB_PASSWORD}
