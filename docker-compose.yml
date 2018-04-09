@@ -1,0 +1,33 @@
+version: "3.3"
+
+networks: 
+  nuxt_restaurant: 
+    driver: bridge
+
+services:
+  # SERVER NUXT
+  nuxt_restaurant:
+    container_name: nuxt_restaurant
+    build:
+      context: .
+      dockerfile: nuxt_restaurant.dockerfile
+    command: sh -c '${DEPLOY_CMD}'
+    ports:
+      - "${PORT_WEP_APP}:3001"
+    volumes:
+      - ./:/app
+    networks: 
+      - nuxt_restaurant
+   
+  # CONTAINER MONGO DB
+  mongodb:
+    image: bitnami/mongodb:3.6
+    container_name: mongodb
+    environment:
+      - MONGODB_USERNAME=${MONGODB_USERNAME}
+      - MONGODB_PASSWORD=${MONGODB_PASSWORD}
+      - MONGODB_DATABASE=${MONGODB_DATABASE}
+    networks: 
+      - nuxt_restaurant
+    ports:
+        - 27017:27017
